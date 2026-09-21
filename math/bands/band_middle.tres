@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="MathBand" format=3 uid="uid://bi33ge4shtcfk"]
+
+[ext_resource type="Script" uid="uid://d4a0fc3v1m03f" path="res://math/math_band.gd" id="1_band"]
+[ext_resource type="Script" uid="uid://c02alopimqbog" path="res://math/generators/integer_ops_generator.gd" id="3_int"]
+[ext_resource type="Script" uid="uid://glc6c15o5ee5" path="res://math/generators/one_step_equation_generator.gd" id="4_eq"]
+[ext_resource type="Script" uid="uid://th6ywcvv0g6f" path="res://math/generators/exponent_generator.gd" id="5_exp"]
+[ext_resource type="Script" uid="uid://53btfv3jpc8y" path="res://math/generators/percent_generator.gd" id="6_pct"]
+[ext_resource type="Script" uid="uid://w0c1sssgq1hd" path="res://math/generators/order_of_ops_generator.gd" id="7_ooo"]
+
+[sub_resource type="Resource" id="Resource_int"]
+script = ExtResource("3_int")
+
+[sub_resource type="Resource" id="Resource_eq"]
+script = ExtResource("4_eq")
+
+[sub_resource type="Resource" id="Resource_exp"]
+script = ExtResource("5_exp")
+
+[sub_resource type="Resource" id="Resource_pct"]
+script = ExtResource("6_pct")
+percents = PackedInt32Array(5, 10, 15, 20, 25, 30, 40, 60, 75, 80)
+base_max = 400
+
+[sub_resource type="Resource" id="Resource_ooo"]
+script = ExtResource("7_ooo")
+operand_min = 3
+operand_max = 20
+use_parentheses = true
+
+[resource]
+script = ExtResource("1_band")
+id = &"middle"
+display_name = "Middle School"
+generators = [SubResource("Resource_int"), SubResource("Resource_eq"), SubResource("Resource_exp"), SubResource("Resource_pct"), SubResource("Resource_ooo")]

@@ -1,0 +1,165 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://ui/hud/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://ui/hud/coin.svg" id="2_coin"]
+[ext_resource type="Texture2D" path="res://entities/food/food_pellet.svg" id="3_food"]
+
+[sub_resource type="StyleBoxFlat" id="chip"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 18.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 1, 1, 0.85)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2, 0.36, 0.55, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[node name="Hud" type="Control" unique_id=2112027701]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="SafeArea" type="MarginContainer" parent="." unique_id=404096725]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Layout" type="VBoxContainer" parent="SafeArea" unique_id=1361610907]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopRow" type="HBoxContainer" parent="SafeArea/Layout" unique_id=1607897413]
+layout_mode = 2
+mouse_filter = 2
+alignment = 0
+
+[node name="ResetButton" type="Button" parent="SafeArea/Layout/TopRow" unique_id=1341324059]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(110, 48)
+layout_mode = 2
+focus_mode = 0
+text = "Reset"
+
+[node name="TopSpacer" type="Control" parent="SafeArea/Layout/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="CoinsPanel" type="PanelContainer" parent="SafeArea/Layout/TopRow" unique_id=643192968]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("chip")
+
+[node name="HBox" type="HBoxContainer" parent="SafeArea/Layout/TopRow/CoinsPanel" unique_id=904584201]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="CoinIcon" type="TextureRect" parent="SafeArea/Layout/TopRow/CoinsPanel/HBox" unique_id=604803483]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoinsLabel" type="Label" parent="SafeArea/Layout/TopRow/CoinsPanel/HBox" unique_id=616613798]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+theme_override_colors/font_color = Color(0.85, 0.55, 0.05, 1)
+text = "0"
+vertical_alignment = 1
+
+[node name="IdleRow" type="HBoxContainer" parent="SafeArea/Layout" unique_id=1356462697]
+layout_mode = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="IdleLabel" type="Label" parent="SafeArea/Layout/IdleRow" unique_id=380696797]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.2, 0.36, 0.55, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.8)
+theme_override_constants/outline_size = 5
+text = "+0 / min"
+
+[node name="Spacer" type="Control" parent="SafeArea/Layout" unique_id=222128671]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="BottomRow" type="HBoxContainer" parent="SafeArea/Layout" unique_id=509146340]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+alignment = 2
+
+[node name="FeedButton" type="Button" parent="SafeArea/Layout/BottomRow" unique_id=1680572951]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 36
+toggle_mode = true
+text = "Food  0"
+icon = ExtResource("3_food")
+
+[node name="ShopButton" type="Button" parent="SafeArea/Layout/BottomRow" unique_id=270315390]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 36
+text = "Shop"
+icon = ExtResource("2_coin")
+
+[node name="Toast" type="Label" parent="." unique_id=1864190509]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -420.0
+offset_top = 84.0
+offset_right = 420.0
+offset_bottom = 130.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.13, 0.2, 0.3, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 8
+text = "Welcome back!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ResetDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Reset save?"
+ok_button_text = "Reset"
+dialog_text = "Delete the tank and start over? This is only for testing."
+cancel_button_text = "Cancel"

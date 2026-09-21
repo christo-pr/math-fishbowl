@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Catalog" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://data/catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://data/fish_species.gd" id="2_species"]
+[ext_resource type="Script" path="res://data/crate_def.gd" id="3_crate"]
+[ext_resource type="Resource" path="res://data/species/orange.tres" id="s_orange"]
+[ext_resource type="Resource" path="res://data/species/blue.tres" id="s_blue"]
+[ext_resource type="Resource" path="res://data/species/green.tres" id="s_green"]
+[ext_resource type="Resource" path="res://data/species/red.tres" id="s_red"]
+[ext_resource type="Resource" path="res://data/species/pink.tres" id="s_pink"]
+[ext_resource type="Resource" path="res://data/species/brown.tres" id="s_brown"]
+[ext_resource type="Resource" path="res://data/species/grey.tres" id="s_grey"]
+[ext_resource type="Resource" path="res://data/species/grey_long.tres" id="s_grey_long"]
+[ext_resource type="Resource" path="res://data/crates/crate_small.tres" id="c_small"]
+[ext_resource type="Resource" path="res://data/crates/crate_medium.tres" id="c_medium"]
+[ext_resource type="Resource" path="res://data/crates/crate_large.tres" id="c_large"]
+
+[resource]
+script = ExtResource("1_catalog")
+species = Array[ExtResource("2_species")]([ExtResource("s_orange"), ExtResource("s_blue"), ExtResource("s_green"), ExtResource("s_red"), ExtResource("s_pink"), ExtResource("s_brown"), ExtResource("s_grey"), ExtResource("s_grey_long")])
+crates = Array[ExtResource("3_crate")]([ExtResource("c_small"), ExtResource("c_medium"), ExtResource("c_large")])

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FishSpecies" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/fish_species.gd" id="1_species"]
+[ext_resource type="Texture2D" path="res://Art/TankSpritesheet/Vector/fish_grey.svg" id="2_tex"]
+
+[resource]
+script = ExtResource("1_species")
+id = &"grey"
+display_name = "Grey Fish"
+texture = ExtResource("2_tex")
+base_scale = 1.0
+rarity_weight = 1.5
+idle_coins_per_minute = Array[float]([0.6, 1.2, 2.4])
+feeds_to_grow = Array[int]([3, 6])

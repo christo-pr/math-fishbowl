@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="MathBand" format=3 uid="uid://b40vnnwmj47qg"]
+
+[ext_resource type="Script" uid="uid://d4a0fc3v1m03f" path="res://math/math_band.gd" id="1_band"]
+[ext_resource type="Script" uid="uid://bjg37r5wc4u0j" path="res://math/generators/add_sub_generator.gd" id="3_addsub"]
+[ext_resource type="Script" uid="uid://dp2m3j2w8j2bw" path="res://math/generators/multiply_generator.gd" id="4_mul"]
+[ext_resource type="Script" uid="uid://bhk5f6bjo7ygy" path="res://math/generators/divide_generator.gd" id="5_div"]
+[ext_resource type="Script" uid="uid://w0c1sssgq1hd" path="res://math/generators/order_of_ops_generator.gd" id="6_ooo"]
+[ext_resource type="Script" uid="uid://53btfv3jpc8y" path="res://math/generators/percent_generator.gd" id="7_pct"]
+
+[sub_resource type="Resource" id="Resource_addsub"]
+script = ExtResource("3_addsub")
+min_value = 100
+max_value = 999
+
+[sub_resource type="Resource" id="Resource_mul"]
+script = ExtResource("4_mul")
+a_min = 12
+a_max = 99
+b_min = 3
+
+[sub_resource type="Resource" id="Resource_div"]
+script = ExtResource("5_div")
+divisor_min = 3
+divisor_max = 12
+quotient_min = 5
+quotient_max = 30
+
+[sub_resource type="Resource" id="Resource_ooo"]
+script = ExtResource("6_ooo")
+operand_max = 15
+use_parentheses = true
+
+[sub_resource type="Resource" id="Resource_pct"]
+script = ExtResource("7_pct")
+percents = PackedInt32Array(10, 20, 25, 50, 75)
+
+[resource]
+script = ExtResource("1_band")
+id = &"grade6"
+display_name = "Grade 6"
+generators = [SubResource("Resource_addsub"), SubResource("Resource_mul"), SubResource("Resource_div"), SubResource("Resource_ooo"), SubResource("Resource_pct")]

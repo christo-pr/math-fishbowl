@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="MathBand" format=3 uid="uid://wrcjk50ugp53"]
+
+[ext_resource type="Script" uid="uid://d4a0fc3v1m03f" path="res://math/math_band.gd" id="1_band"]
+[ext_resource type="Script" uid="uid://bjg37r5wc4u0j" path="res://math/generators/add_sub_generator.gd" id="3_addsub"]
+[ext_resource type="Script" uid="uid://dp2m3j2w8j2bw" path="res://math/generators/multiply_generator.gd" id="4_mul"]
+[ext_resource type="Script" uid="uid://bhk5f6bjo7ygy" path="res://math/generators/divide_generator.gd" id="5_div"]
+[ext_resource type="Script" uid="uid://w0c1sssgq1hd" path="res://math/generators/order_of_ops_generator.gd" id="6_ooo"]
+
+[sub_resource type="Resource" id="Resource_addsub"]
+script = ExtResource("3_addsub")
+
+[sub_resource type="Resource" id="Resource_facts"]
+script = ExtResource("4_mul")
+
+[sub_resource type="Resource" id="Resource_mul2x1"]
+script = ExtResource("4_mul")
+a_min = 11
+a_max = 99
+b_max = 9
+
+[sub_resource type="Resource" id="Resource_div"]
+script = ExtResource("5_div")
+
+[sub_resource type="Resource" id="Resource_ooo"]
+script = ExtResource("6_ooo")
+
+[resource]
+script = ExtResource("1_band")
+generators = [SubResource("Resource_addsub"), SubResource("Resource_facts"), SubResource("Resource_mul2x1"), SubResource("Resource_div"), SubResource("Resource_ooo")]

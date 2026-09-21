@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://coxp3fsvqaxi6"]
+
+[ext_resource type="Script" uid="uid://c7v2ixmuwpil3" path="res://tank/tank.gd" id="1_tank"]
+[ext_resource type="Script" uid="uid://qtfc8x2nbs1p" path="res://tank/tank_decor.gd" id="2_decor"]
+[ext_resource type="Script" uid="uid://ba4ui3v0vsatr" path="res://tank/fish_school.gd" id="3_school"]
+[ext_resource type="Script" uid="uid://cgsmf8w81pjou" path="res://tank/crate_spawner.gd" id="4_spawner"]
+[ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://ui/shop/shop_panel.tscn" id="6_shop"]
+[ext_resource type="PackedScene" path="res://ui/name_fish/name_fish_dialog.tscn" id="7_name"]
+[ext_resource type="PackedScene" path="res://ui/quiz/quiz_overlay.tscn" id="8_quiz"]
+
+[node name="Tank" type="Node2D" unique_id=1727022702]
+script = ExtResource("1_tank")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1332340533]
+layer = -1
+
+[node name="Water" type="ColorRect" parent="Background" unique_id=1935856377]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.69, 0.88, 0.97, 1)
+
+[node name="Decor" type="Node2D" parent="." unique_id=62544486]
+script = ExtResource("2_decor")
+
+[node name="Bounds" type="StaticBody2D" parent="." unique_id=1356677562]
+unique_name_in_owner = true
+collision_mask = 0
+
+[node name="FishSchool" type="Node2D" parent="." unique_id=600695283]
+unique_name_in_owner = true
+script = ExtResource("3_school")
+
+[node name="Crates" type="Node2D" parent="." unique_id=1771020331]
+
+[node name="CrateSpawner" type="Node2D" parent="." unique_id=20666184 node_paths=PackedStringArray("crates_root")]
+unique_name_in_owner = true
+script = ExtResource("4_spawner")
+crates_root = NodePath("../Crates")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1434788512]
+layer = 10
+
+[node name="Hud" parent="UI" unique_id=1286329206 instance=ExtResource("5_hud")]
+unique_name_in_owner = true
+
+[node name="ShopPanel" parent="UI" unique_id=1622379062 instance=ExtResource("6_shop")]
+unique_name_in_owner = true
+
+[node name="NameFishDialog" parent="UI" unique_id=1074429888 instance=ExtResource("7_name")]
+unique_name_in_owner = true
+
+[node name="QuizOverlay" parent="UI" unique_id=1611985205 instance=ExtResource("8_quiz")]
+unique_name_in_owner = true

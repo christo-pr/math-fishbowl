@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://entities/crate/crate.gd" id="1_crate"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_crate"]
+friction = 0.9
+bounce = 0.05
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crate"]
+size = Vector2(52, 52)
+
+[node name="Crate" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 3
+input_pickable = true
+physics_material_override = SubResource("PhysicsMaterial_crate")
+can_sleep = true
+lock_rotation = true
+script = ExtResource("1_crate")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_crate")
