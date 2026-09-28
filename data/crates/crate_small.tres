@@ -1,20 +1,12 @@
-[gd_resource type="Resource" script_class="CrateDef" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="CrateDef" format=3 uid="uid://d3arcs7qr2q70"]
 
-[ext_resource type="Script" path="res://data/crate_def.gd" id="1_def"]
-[ext_resource type="Texture2D" path="res://entities/crate/crate_small.svg" id="2_tex"]
-[ext_resource type="Resource" path="res://math/bands/band_grade5.tres" id="3_band"]
+[ext_resource type="Script" uid="uid://b0tt8xnk8byon" path="res://data/crate_def.gd" id="1_def"]
+[ext_resource type="Texture2D" uid="uid://djl0rysyoyr0a" path="res://entities/crate/crate_small.svg" id="2_tex"]
+[ext_resource type="Resource" uid="uid://wrcjk50ugp53" path="res://math/bands/band_grade5.tres" id="3_band"]
 
 [resource]
 script = ExtResource("1_def")
-id = &"small"
-display_name = "Small Crate"
 texture = ExtResource("2_tex")
 band = ExtResource("3_band")
-problem_count = 2
-coin_reward = 10
-fish_min = 1
-fish_max = 1
-spawn_weight = 50.0
 sprite_scale = 0.9
 collider_size = Vector2(46, 44)
-mass = 1.0
