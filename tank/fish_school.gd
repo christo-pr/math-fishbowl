@@ -8,6 +8,7 @@ var _nodes: Dictionary = {} # fish_id -> Fish
 
 func _ready() -> void:
 	EventBus.fish_added.connect(_on_fish_added)
+	EventBus.fish_removed.connect(_on_fish_removed)
 	for fish in GameState.state.fish:
 		_instantiate(fish)
 
@@ -20,6 +21,12 @@ func _on_fish_added(fish: FishData) -> void:
 	var node := _instantiate(fish)
 	if node:
 		node.play_spawn()
+
+func _on_fish_removed(fish_id: String) -> void:
+	var node := _nodes.get(fish_id) as Fish
+	_nodes.erase(fish_id)
+	if node:
+		node.queue_free()
 
 
 func _instantiate(fish: FishData) -> Fish:

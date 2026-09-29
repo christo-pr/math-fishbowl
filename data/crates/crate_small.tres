@@ -6,7 +6,10 @@
 
 [resource]
 script = ExtResource("1_def")
+display_name = "Tesoro chico"
 texture = ExtResource("2_tex")
 band = ExtResource("3_band")
+problem_count = 3
+coin_reward = 5
 sprite_scale = 0.9
 collider_size = Vector2(46, 44)

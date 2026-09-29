@@ -17,4 +17,5 @@ b_max = 10
 
 [resource]
 script = ExtResource("1_band")
+display_name = "Sumas y multiplicaciones"
 generators = Array[ExtResource("1_2dw66")]([SubResource("Resource_m63qc"), SubResource("Resource_facts")])

@@ -21,6 +21,8 @@ signal quiz_requested(crate_id: String)
 signal fish_added(fish: FishData)
 signal fish_changed(fish: FishData)
 signal feed_mode_changed(active: bool)
+signal fish_selection_changed(fish_id: String)
+signal fish_removed(fish_id: String)
 
 # --- System ---
 ## Emitted right before serializing so entities can push transforms into GameState.

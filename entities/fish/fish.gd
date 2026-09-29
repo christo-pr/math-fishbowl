@@ -34,6 +34,7 @@ func _ready() -> void:
 	input_event.connect(_on_input_event)
 	EventBus.fish_changed.connect(_on_fish_changed)
 	EventBus.save_requested.connect(_on_save_requested)
+	EventBus.fish_selection_changed.connect(_on_selection_changed)
 	get_viewport().size_changed.connect(_update_water)
 	_update_water()
 
@@ -48,6 +49,8 @@ func setup(p_data: FishData, p_species: FishSpecies) -> void:
 	position = TankLayout.clamp_to_water(get_viewport_rect().size, Vector2(data.x, data.y))
 	_apply_stage(false)
 	_pick_target()
+	# so a fish spawned while another is selected stays white
+	_on_selection_changed(GameState.selected_fish_id)
 
 
 func play_spawn() -> void:
@@ -82,6 +85,8 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		_feed()
 	else:
 		_pet()
+		# Set as selected when pet
+		GameState.select_fish(data.id)
 
 
 func _pet() -> void:
@@ -116,6 +121,11 @@ func _on_save_requested() -> void:
 	if data:
 		GameState.sync_fish_transform(data.id, position, _facing)
 
+func _on_selection_changed(fish_id: String) -> void:
+	var selected := data != null and fish_id == data.id
+	var mat := _sprite.material as ShaderMaterial
+	if mat:
+		mat.set_shader_parameter("show_outline", selected)
 
 # --- Visuals -----------------------------------------------------------------
 
@@ -171,8 +181,7 @@ func _float_text(text: String, color: Color) -> void:
 	tween.tween_property(label, "position:y", label.position.y - FLOAT_TEXT_RISE, 0.8).set_ease(Tween.EASE_OUT)
 	tween.tween_property(label, "modulate:a", 0.0, 0.8).set_delay(0.3)
 	tween.chain().tween_callback(label.queue_free)
-
-
+	
 # --- Wandering ---------------------------------------------------------------
 
 func _update_water() -> void:

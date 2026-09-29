@@ -11,6 +11,7 @@ var catalog: Catalog = preload("res://data/catalog.tres")
 var config: EconomyConfig = preload("res://economy/economy_config.tres")
 var state: TankState
 var feed_mode: bool = false
+var selected_fish_id: String = ""
 
 var _idle_per_second: float = 0.0
 var _coin_fraction: float = 0.0
@@ -67,6 +68,7 @@ func save() -> void:
 ## Does not write a new file; the next natural save does that.
 func reset_progress() -> void:
 	set_feed_mode(false)
+	select_fish("")
 	_coin_fraction = 0.0
 	state = TankState.new()
 	state.last_unix = Time.get_unix_time_from_system()
@@ -211,6 +213,35 @@ func sync_fish_transform(fish_id: String, pos: Vector2, facing: int) -> void:
 		fish.y = pos.y
 		fish.facing = facing
 
+func select_fish(fish_id: String) -> void:
+	if fish_id == selected_fish_id:
+		return
+	if not fish_id.is_empty() and state.find_fish(fish_id) == null:
+		return
+	selected_fish_id = fish_id
+	EventBus.fish_selection_changed.emit(selected_fish_id)
+
+func sushi_payout(fish: FishData) -> int:
+	var species := catalog.get_species(fish.species_id)
+	if species == null:
+		return 1
+	var coins := int(round(species.idle_rate_for_stage(fish.stage) * config.sushi_minutes))
+	return maxi(1, coins)
+	
+func make_fish_sushi(fish_id: String) -> int:
+	var fish := state.find_fish(fish_id)
+	if fish == null:
+		return 0
+	var payout := sushi_payout(fish)
+	state.fish.erase(fish)
+	if selected_fish_id == fish_id:
+		select_fish("")
+	_recompute_idle_rate()
+	add_coins(payout)
+	EventBus.fish_removed.emit(fish_id)
+	save()
+	return payout
+	
 
 # --- Internals ---------------------------------------------------------------
 

@@ -1,18 +1,16 @@
-[gd_resource type="Resource" script_class="CrateDef" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="CrateDef" format=3 uid="uid://b1e5m1st3k24x"]
 
-[ext_resource type="Script" path="res://data/crate_def.gd" id="1_def"]
-[ext_resource type="Texture2D" path="res://entities/crate/crate_medium.svg" id="2_tex"]
-[ext_resource type="Resource" path="res://math/bands/band_grade6.tres" id="3_band"]
+[ext_resource type="Script" uid="uid://b0tt8xnk8byon" path="res://data/crate_def.gd" id="1_def"]
+[ext_resource type="Texture2D" uid="uid://bldqkesyfiumi" path="res://entities/crate/crate_medium.svg" id="2_tex"]
+[ext_resource type="Resource" uid="uid://b40vnnwmj47qg" path="res://math/bands/band_grade6.tres" id="3_band"]
 
 [resource]
 script = ExtResource("1_def")
 id = &"medium"
-display_name = "Medium Crate"
+display_name = "Tesoro mediano"
 texture = ExtResource("2_tex")
 band = ExtResource("3_band")
-problem_count = 3
-coin_reward = 25
-fish_min = 1
+problem_count = 4
 fish_max = 2
 spawn_weight = 35.0
 sprite_scale = 1.15

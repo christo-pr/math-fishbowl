@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://db5m6ellnpt6"]
 
-[ext_resource type="Script" path="res://ui/hud/hud.gd" id="1_hud"]
-[ext_resource type="Texture2D" path="res://ui/hud/coin.svg" id="2_coin"]
-[ext_resource type="Texture2D" path="res://entities/food/food_pellet.svg" id="3_food"]
+[ext_resource type="Script" uid="uid://dvfjxa743vdhh" path="res://ui/hud/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" uid="uid://b3ywql4nhlspy" path="res://ui/hud/coin.svg" id="2_coin"]
+[ext_resource type="Texture2D" uid="uid://dvaie4xa5lq77" path="res://entities/food/food_pellet.svg" id="3_food"]
+[ext_resource type="Texture2D" uid="uid://b87exit6uuuue" path="res://Art/TankSpritesheet/spritesheet.png" id="4_w75iv"]
 
 [sub_resource type="StyleBoxFlat" id="chip"]
 content_margin_left = 14.0
@@ -19,6 +20,10 @@ corner_radius_top_left = 22
 corner_radius_top_right = 22
 corner_radius_bottom_right = 22
 corner_radius_bottom_left = 22
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imuuq"]
+atlas = ExtResource("4_w75iv")
+region = Rect2(464, 276, 36, 24)
 
 [node name="Hud" type="Control" unique_id=2112027701]
 layout_mode = 3
@@ -51,7 +56,6 @@ mouse_filter = 2
 [node name="TopRow" type="HBoxContainer" parent="SafeArea/Layout" unique_id=1607897413]
 layout_mode = 2
 mouse_filter = 2
-alignment = 0
 
 [node name="ResetButton" type="Button" parent="SafeArea/Layout/TopRow" unique_id=1341324059]
 unique_name_in_owner = true
@@ -61,7 +65,7 @@ layout_mode = 2
 focus_mode = 0
 text = "Reset"
 
-[node name="TopSpacer" type="Control" parent="SafeArea/Layout/TopRow"]
+[node name="TopSpacer" type="Control" parent="SafeArea/Layout/TopRow" unique_id=654695081]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -87,8 +91,8 @@ stretch_mode = 5
 [node name="CoinsLabel" type="Label" parent="SafeArea/Layout/TopRow/CoinsPanel/HBox" unique_id=616613798]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 34
 theme_override_colors/font_color = Color(0.85, 0.55, 0.05, 1)
+theme_override_font_sizes/font_size = 34
 text = "0"
 vertical_alignment = 1
 
@@ -100,10 +104,10 @@ alignment = 2
 [node name="IdleLabel" type="Label" parent="SafeArea/Layout/IdleRow" unique_id=380696797]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(0.2, 0.36, 0.55, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 0.8)
 theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
 text = "+0 / min"
 
 [node name="Spacer" type="Control" parent="SafeArea/Layout" unique_id=222128671]
@@ -136,6 +140,15 @@ theme_override_constants/icon_max_width = 36
 text = "Shop"
 icon = ExtResource("2_coin")
 
+[node name="SushiButton" type="Button" parent="SafeArea/Layout/BottomRow" unique_id=65863422]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 64)
+layout_mode = 2
+focus_mode = 0
+disabled = true
+text = "Sushi"
+icon = SubResource("AtlasTexture_imuuq")
+
 [node name="Toast" type="Label" parent="." unique_id=1864190509]
 unique_name_in_owner = true
 visible = false
@@ -148,18 +161,24 @@ offset_top = 84.0
 offset_right = 420.0
 offset_bottom = 130.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 26
 theme_override_colors/font_color = Color(0.13, 0.2, 0.3, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
 theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 26
 text = "Welcome back!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ResetDialog" type="ConfirmationDialog" parent="."]
+[node name="ResetDialog" type="ConfirmationDialog" parent="." unique_id=814533856]
 unique_name_in_owner = true
 title = "Reset save?"
 ok_button_text = "Reset"
 dialog_text = "Delete the tank and start over? This is only for testing."
-cancel_button_text = "Cancel"
+
+[node name="SushiDialog" type="ConfirmationDialog" parent="." unique_id=1491718812]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Hacerlo sushi?"
+size = Vector2i(243, 131)
+ok_button_text = "Sushi"

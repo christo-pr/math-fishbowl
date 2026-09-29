@@ -10,7 +10,7 @@ extends Resource
 ## Rarer species get a lower weight when a crate picks a fish.
 @export_range(0.1, 10.0, 0.1) var rarity_weight: float = 1.0
 ## Coins per minute produced at stage 0, 1, 2.
-@export var idle_coins_per_minute: Array[float] = [0.5, 1.0, 2.0]
+@export var idle_coins_per_minute: Array[float] = [0.01, 0.03, 0.05]
 ## Feedings required to leave stage 0 and stage 1.
 @export var feeds_to_grow: Array[int] = [3, 6]
 

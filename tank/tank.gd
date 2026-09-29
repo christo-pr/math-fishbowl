@@ -28,6 +28,10 @@ func _ready() -> void:
 	_hud.shop_pressed.connect(_shop.open)
 	_name_dialog.confirmed.connect(_on_name_confirmed)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch and event.pressed:
+		# Clear the selected fish when tapped anywhere on the screen
+		GameState.select_fish("")
 
 # --- Quiz flow ---------------------------------------------------------------
 

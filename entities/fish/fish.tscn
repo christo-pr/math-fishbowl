@@ -1,32 +1,68 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://dpsvxkl8vimen"]
 
-[ext_resource type="Script" path="res://entities/fish/fish.gd" id="1_fish"]
+[ext_resource type="Script" uid="uid://bqlcjlxo70is1" path="res://entities/fish/fish.gd" id="1_fish"]
+
+[sub_resource type="Shader" id="Shader_kcc1h"]
+code = "shader_type canvas_item;
+
+uniform vec4 outline_color : source_color = vec4(0.95, 0.72, 0.1, 1.0);
+uniform float outline_width : hint_range(0.0, 5.0) = 3.0;
+uniform bool show_outline = false;
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	if (!show_outline) {
+		COLOR = tex;
+	} else {
+		vec2 px = outline_width / vec2(textureSize(TEXTURE, 0));
+		float neighbor = 0.0;
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(px.x, 0.0)).a);
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(-px.x, 0.0)).a);
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(0.0, px.y)).a);
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(0.0, -px.y)).a);
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(px.x, px.y)).a);
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(-px.x, px.y)).a);
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(px.x, -px.y)).a);
+		neighbor = max(neighbor, texture(TEXTURE, UV + vec2(-px.x, -px.y)).a);
+		if (tex.a < 0.2 && neighbor > 0.2) {
+			COLOR = outline_color;
+		} else {
+			COLOR = tex;
+		}
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ie4xw"]
+resource_local_to_scene = true
+shader = SubResource("Shader_kcc1h")
+shader_parameter/outline_color = Color(0.94848174, 0.91329557, 0.9668179, 1)
+shader_parameter/outline_width = 4.00000019
+shader_parameter/show_outline = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fish"]
 radius = 30.0
 
-[node name="Fish" type="Area2D"]
+[node name="Fish" type="Area2D" unique_id=366341814]
 collision_layer = 4
 collision_mask = 0
-input_pickable = true
 monitoring = false
 monitorable = false
 script = ExtResource("1_fish")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1252494904]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_ie4xw")
 
-[node name="Shape" type="CollisionShape2D" parent="."]
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=146397310]
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_fish")
 
-[node name="NameLabel" type="Label" parent="."]
+[node name="NameLabel" type="Label" parent="." unique_id=858681890]
 unique_name_in_owner = true
 offset_left = -70.0
 offset_top = 40.0
 offset_right = 70.0
 offset_bottom = 66.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.13, 0.2, 0.3, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 0.85)
 theme_override_constants/outline_size = 6

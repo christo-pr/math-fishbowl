@@ -14,6 +14,8 @@ const TOAST_SECONDS := 2.6
 @onready var _reset_button: Button = %ResetButton
 @onready var _reset_dialog: ConfirmationDialog = %ResetDialog
 @onready var _toast: Label = %Toast
+@onready var _sushi_button: Button = %SushiButton
+@onready var _sushi_dialog: ConfirmationDialog = %SushiDialog
 
 var _toast_tween: Tween
 
@@ -24,11 +26,14 @@ func _ready() -> void:
 	EventBus.feed_mode_changed.connect(_on_feed_mode_changed)
 	EventBus.idle_rate_changed.connect(_on_idle_rate_changed)
 	EventBus.offline_reward.connect(_on_offline_reward)
+	EventBus.fish_selection_changed.connect(_on_fish_selection_changed)
 	_feed_button.toggled.connect(_on_feed_toggled)
 	_shop_button.pressed.connect(func() -> void: shop_pressed.emit())
 	_reset_button.visible = OS.is_debug_build()
 	_reset_button.pressed.connect(_on_reset_pressed)
 	_reset_dialog.confirmed.connect(_on_reset_confirmed)
+	_sushi_button.pressed.connect(_on_sushi_pressed)
+	_sushi_dialog.confirmed.connect(_on_sushi_confirmed)
 	get_viewport().size_changed.connect(_apply_safe_area)
 
 	_apply_safe_area()
@@ -36,6 +41,7 @@ func _ready() -> void:
 	_on_food_changed(GameState.state.food)
 	_on_idle_rate_changed(GameState.idle_coins_per_minute())
 	_on_feed_mode_changed(GameState.feed_mode)
+	_on_fish_selection_changed(GameState.selected_fish_id)
 
 
 func show_toast(text: String) -> void:
@@ -86,6 +92,21 @@ func _on_feed_toggled(pressed: bool) -> void:
 		return
 	GameState.set_feed_mode(pressed)
 
+func _on_fish_selection_changed(fish_id: String) -> void:
+	_sushi_button.disabled = fish_id.is_empty()
+
+func _on_sushi_pressed() -> void:
+	var fish := GameState.state.find_fish(GameState.selected_fish_id)
+	if fish == null:
+		return
+	var payout := GameState.sushi_payout(fish)
+	_sushi_dialog.dialog_text = "Turn %s into sushi for %s coins?" % [fish.name, format_number(payout)]
+	_sushi_dialog.popup_centered()
+
+func _on_sushi_confirmed() -> void:
+	var gained := GameState.make_fish_sushi(GameState.selected_fish_id)
+	if gained > 0:
+		show_toast("Sushi! +%s coins" % format_number(gained))
 
 func _on_offline_reward(coins: int, seconds_away: int) -> void:
 	# Deferred so the HUD is fully laid out before the toast tween runs.

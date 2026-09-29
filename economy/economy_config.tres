@@ -1,14 +1,6 @@
-[gd_resource type="Resource" script_class="EconomyConfig" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="EconomyConfig" format=3 uid="uid://b8ontrtqjl5m7"]
 
-[ext_resource type="Script" path="res://economy/economy_config.gd" id="1_cfg"]
+[ext_resource type="Script" uid="uid://bx8odybh44g4t" path="res://economy/economy_config.gd" id="1_cfg"]
 
 [resource]
 script = ExtResource("1_cfg")
-starting_coins = 20
-starting_food = 3
-food_price = 5
-offline_cap_seconds = 28800
-max_fish = 12
-max_crates = 5
-first_crate_delay = 2.0
-crate_spawn_interval = 20.0

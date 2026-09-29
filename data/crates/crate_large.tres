@@ -1,20 +1,20 @@
-[gd_resource type="Resource" script_class="CrateDef" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="CrateDef" format=3 uid="uid://dcum5ppeuwt2k"]
 
-[ext_resource type="Script" path="res://data/crate_def.gd" id="1_def"]
-[ext_resource type="Texture2D" path="res://entities/crate/crate_large.svg" id="2_tex"]
-[ext_resource type="Resource" path="res://math/bands/band_middle.tres" id="3_band"]
+[ext_resource type="Script" uid="uid://b0tt8xnk8byon" path="res://data/crate_def.gd" id="1_def"]
+[ext_resource type="Texture2D" uid="uid://cu5a72tcxn5vi" path="res://entities/crate/crate_large.svg" id="2_tex"]
+[ext_resource type="Resource" uid="uid://bi33ge4shtcfk" path="res://math/bands/band_middle.tres" id="3_band"]
 
 [resource]
 script = ExtResource("1_def")
 id = &"large"
-display_name = "Large Crate"
+display_name = "Tesoro Grande"
 texture = ExtResource("2_tex")
 band = ExtResource("3_band")
-problem_count = 4
-coin_reward = 50
+problem_count = 6
+coin_reward = 15
 fish_min = 2
 fish_max = 3
-spawn_weight = 15.0
+spawn_weight = 10.0
 sprite_scale = 1.45
 collider_size = Vector2(82, 78)
 mass = 4.0

@@ -19,5 +19,5 @@ quotient_max = 10
 [resource]
 script = ExtResource("1_band")
 id = &"grade6"
-display_name = "Grade 6"
+display_name = "Multitplicacion y division"
 generators = Array[ExtResource("1_f3a1f")]([SubResource("Resource_mul"), SubResource("Resource_div")])

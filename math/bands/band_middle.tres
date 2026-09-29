@@ -22,5 +22,5 @@ metadata/_custom_type_script = "uid://dp2m3j2w8j2bw"
 [resource]
 script = ExtResource("1_band")
 id = &"middle"
-display_name = "Middle School"
+display_name = "Sumas y multiplicacion 2"
 generators = Array[ExtResource("1_vpbpe")]([SubResource("Resource_oqv15"), SubResource("Resource_vpbpe")])

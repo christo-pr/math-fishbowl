@@ -1,14 +1,12 @@
-[gd_resource type="Resource" script_class="FishSpecies" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="FishSpecies" format=3 uid="uid://hhns8oiqc53w"]
 
-[ext_resource type="Script" path="res://data/fish_species.gd" id="1_species"]
-[ext_resource type="Texture2D" path="res://Art/TankSpritesheet/Vector/fish_brown.svg" id="2_tex"]
+[ext_resource type="Script" uid="uid://de2yqfck1f2na" path="res://data/fish_species.gd" id="1_species"]
+[ext_resource type="Texture2D" uid="uid://b4rhof1572rrg" path="res://Art/TankSpritesheet/Vector/fish_brown.svg" id="2_tex"]
 
 [resource]
 script = ExtResource("1_species")
 id = &"brown"
 display_name = "Puffer"
 texture = ExtResource("2_tex")
-base_scale = 1.0
-rarity_weight = 1.0
-idle_coins_per_minute = Array[float]([0.8, 1.6, 3.2])
+idle_coins_per_minute = Array[float]([0.1, 0.12, 0.14])
 feeds_to_grow = Array[int]([4, 7])

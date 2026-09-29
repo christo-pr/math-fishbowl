@@ -13,6 +13,9 @@ extends Resource
 ## Offline earnings never exceed this many seconds (8h default).
 @export var offline_cap_seconds: int = 8 * 60 * 60
 
+@export_group("Sushi")
+@export var sushi_minutes: float = 10.0
+
 @export_group("Tank limits")
 @export var max_fish: int = 12
 @export var max_crates: int = 5
