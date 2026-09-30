@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cii3mijqiu4k1"]
 
-[ext_resource type="Script" path="res://ui/name_fish/name_fish_dialog.gd" id="1_name"]
+[ext_resource type="Script" uid="uid://dbx7gbhmq2jis" path="res://ui/name_fish/name_fish_dialog.gd" id="1_name"]
 
-[node name="NameFishDialog" type="Control"]
+[node name="NameFishDialog" type="Control" unique_id=1934015151]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,17 +12,16 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_name")
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=1344824686]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 color = Color(0.05, 0.12, 0.2, 0.4)
 
-[node name="Center" type="CenterContainer" parent="."]
+[node name="Center" type="CenterContainer" parent="." unique_id=2118100454]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,29 +30,29 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Panel" type="PanelContainer" parent="Center"]
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=1517646231]
 custom_minimum_size = Vector2(520, 0)
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="Center/Panel"]
+[node name="VBox" type="VBoxContainer" parent="Center/Panel" unique_id=369271203]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Title" type="Label" parent="Center/Panel/VBox"]
+[node name="Title" type="Label" parent="Center/Panel/VBox" unique_id=1010923883]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "A new fish arrived!"
 horizontal_alignment = 1
 
-[node name="Preview" type="TextureRect" parent="Center/Panel/VBox"]
+[node name="Preview" type="TextureRect" parent="Center/Panel/VBox" unique_id=1908038812]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SpeciesLabel" type="Label" parent="Center/Panel/VBox"]
+[node name="SpeciesLabel" type="Label" parent="Center/Panel/VBox" unique_id=1253294008]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.48, 0.58, 1)
@@ -61,16 +60,15 @@ theme_override_font_sizes/font_size = 22
 text = "Orange Fish"
 horizontal_alignment = 1
 
-[node name="NameEdit" type="LineEdit" parent="Center/Panel/VBox"]
+[node name="NameEdit" type="LineEdit" parent="Center/Panel/VBox" unique_id=315873635]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 placeholder_text = "Name your fish"
 alignment = 1
 max_length = 14
-virtual_keyboard_type = 0
 
-[node name="DoneButton" type="Button" parent="Center/Panel/VBox"]
+[node name="DoneButton" type="Button" parent="Center/Panel/VBox" unique_id=367383163]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2

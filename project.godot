@@ -10,11 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Math Fishbowl"
+config/name="Matepecera"
 run/main_scene="res://tank/tank.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 run/low_processor_mode=true
-config/icon="res://icon.svg"
+config/icon="uid://46tgn5aan53i"
 
 [audio]
 
