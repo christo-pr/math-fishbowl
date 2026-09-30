@@ -20,3 +20,4 @@ correct = ExtResource("6_83834")
 wrong = ExtResource("7_upng6")
 quiz_success = ExtResource("8_yes2m")
 sushi = ExtResource("9_ka77o")
+music_volume_db = -16.0
