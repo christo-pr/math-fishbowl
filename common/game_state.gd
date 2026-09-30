@@ -3,7 +3,7 @@ extends Node
 ## UI and entities call the request methods below and react to EventBus signals.
 ## No sprites, no scene references live here.
 
-enum FeedResult { FED, GREW, FULL, NO_FOOD, NOT_FOUND }
+enum FeedResult {FED, GREW, FULL, NO_FOOD, NOT_FOUND, DEAD}
 
 const MAX_IDLE_FPS_BACKGROUND := 5
 
@@ -16,6 +16,7 @@ var selected_fish_id: String = ""
 var _idle_per_second: float = 0.0
 var _coin_fraction: float = 0.0
 var _rng := RandomNumberGenerator.new()
+var _suspended: bool = false
 
 
 func _ready() -> void:
@@ -34,6 +35,9 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if _suspended:
+		return
+	_decay_life(delta)
 	if _idle_per_second <= 0.0:
 		return
 	_coin_fraction += _idle_per_second * delta
@@ -46,12 +50,14 @@ func _process(delta: float) -> void:
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_APPLICATION_PAUSED:
+			_suspended = true
 			save()
 			Engine.max_fps = MAX_IDLE_FPS_BACKGROUND
 		NOTIFICATION_APPLICATION_RESUMED:
 			Engine.max_fps = 0
 			_apply_offline_progress()
 			state.last_unix = Time.get_unix_time_from_system()
+			_suspended = false
 		NOTIFICATION_WM_CLOSE_REQUEST:
 			save()
 
@@ -184,21 +190,36 @@ func feed_fish(fish_id: String) -> FeedResult:
 	var fish := state.find_fish(fish_id)
 	if fish == null:
 		return FeedResult.NOT_FOUND
+	if not fish.is_alive():
+		return FeedResult.DEAD
 	if state.food <= 0:
 		set_feed_mode(false)
 		return FeedResult.NO_FOOD
 	var species := catalog.get_species(fish.species_id)
-	if fish.stage >= FishData.MAX_STAGE:
+	if species == null:
+		return FeedResult.NOT_FOUND
+
+	var at_max_stage := fish.stage >= FishData.MAX_STAGE
+	var life_room := fish.life < 1.0 and not is_equal_approx(fish.life, 1.0)
+	if at_max_stage and not life_room:
 		return FeedResult.FULL
 
+	var before := _band(fish)
 	_set_food(state.food - 1)
-	fish.growth += 1
+	if life_room:
+		fish.life = minf(1.0, fish.life + config.life_gain_per_feed())
+
 	var result := FeedResult.FED
-	if fish.growth >= species.feeds_needed(fish.stage):
-		fish.stage += 1
-		fish.growth = 0
-		result = FeedResult.GREW
-		_recompute_idle_rate()
+	if not at_max_stage:
+		fish.growth += 1
+		if fish.growth >= species.feeds_needed(fish.stage):
+			fish.stage += 1
+			fish.growth = 0
+			result = FeedResult.GREW
+			_recompute_idle_rate()
+
+	if _band(fish) != before:
+		EventBus.fish_vital_changed.emit(fish)
 	EventBus.fish_changed.emit(fish)
 	if state.food <= 0:
 		set_feed_mode(false)
@@ -227,7 +248,7 @@ func sushi_payout(fish: FishData) -> int:
 		return 1
 	var coins := int(round(species.idle_rate_for_stage(fish.stage) * config.sushi_minutes))
 	return maxi(1, coins)
-	
+
 func make_fish_sushi(fish_id: String) -> int:
 	var fish := state.find_fish(fish_id)
 	if fish == null:
@@ -241,7 +262,7 @@ func make_fish_sushi(fish_id: String) -> int:
 	EventBus.fish_removed.emit(fish_id)
 	save()
 	return payout
-	
+
 
 # --- Internals ---------------------------------------------------------------
 
@@ -258,6 +279,8 @@ func _set_food(value: int) -> void:
 func _recompute_idle_rate() -> void:
 	var per_minute := 0.0
 	for fish in state.fish:
+		if not fish.is_alive():
+			continue
 		var species := catalog.get_species(fish.species_id)
 		if species:
 			per_minute += species.idle_rate_for_stage(fish.stage)
@@ -270,7 +293,50 @@ func _apply_offline_progress() -> void:
 		return
 	var away := Time.get_unix_time_from_system() - state.last_unix
 	var seconds := clampf(away, 0.0, float(config.offline_cap_seconds))
-	var earned := int(floor(seconds * _idle_per_second))
+	if seconds <= 0.0:
+		return
+	var earned := _coins_for_elapsed(seconds)
 	if earned > 0:
 		_set_coins(state.coins + earned)
 		EventBus.offline_reward.emit(earned, int(seconds))
+	_decay_life(seconds)
+
+func _coins_for_elapsed(seconds: float) -> int:
+	var decay := config.life_decay_per_second()
+	var earned := 0.0
+	for fish in state.fish:
+		if not fish.is_alive():
+			continue
+		var species := catalog.get_species(fish.species_id)
+		if species == null:
+			continue
+		var alive_seconds := seconds
+		if decay > 0.0:
+			alive_seconds = minf(seconds, fish.life / decay)
+		earned += species.idle_rate_for_stage(fish.stage) / 60.0 * alive_seconds
+	return int(floor(earned))
+
+func _decay_life(seconds: float) -> void:
+	if seconds <= 0.0:
+		return
+	var amount := config.life_decay_per_second() * seconds
+	var any_died := false
+	for fish in state.fish:
+		if not fish.is_alive():
+			continue
+		var before := _band(fish)
+		fish.life = maxf(0.0, fish.life - amount)
+		var after := _band(fish)
+		if after != before:
+			EventBus.fish_vital_changed.emit(fish)
+		if after == FishData.VitalBand.DEAD:
+			any_died = true
+	if any_died:
+		_recompute_idle_rate()
+
+func _band(fish: FishData) -> FishData.VitalBand:
+	return fish.vital_band(
+		config.band_hungry_below,
+		config.band_starving_below,
+		config.band_almost_dead_below
+	)

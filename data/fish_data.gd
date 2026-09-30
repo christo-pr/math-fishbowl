@@ -2,8 +2,12 @@ class_name FishData
 extends RefCounted
 ## Runtime + saved state of one fish. Plain data, no Node references.
 
+enum VitalBand {CONTENT, HUNGRY, STARVING, ALMOST_DEAD, DEAD}
+
 const MAX_STAGE := 2
 
+# 1.0 = full, 0.0 = dead, Bands are derived.
+var life: float = 1.0
 var id: String = ""
 var species_id: StringName = &""
 var name: String = ""
@@ -24,6 +28,7 @@ func to_dict() -> Dictionary:
 		"x": x,
 		"y": y,
 		"facing": facing,
+		"life": life,
 	}
 
 
@@ -37,4 +42,19 @@ static func from_dict(d: Dictionary) -> FishData:
 	fish.x = float(d.get("x", 0.0))
 	fish.y = float(d.get("y", 0.0))
 	fish.facing = -1 if int(d.get("facing", 1)) < 0 else 1
+	fish.life = clampf(float(d.get("life", 1.0)), 0.0, 1.0)
 	return fish
+
+func vital_band(hungry_below: float, starving_below: float, almost_dead_below: float) -> VitalBand:
+	if life <= 0.0 or is_equal_approx(life, 0.0):
+		return VitalBand.DEAD
+	if life < almost_dead_below:
+		return VitalBand.ALMOST_DEAD
+	if life < starving_below:
+		return VitalBand.STARVING
+	if life < hungry_below:
+		return VitalBand.HUNGRY
+	return VitalBand.CONTENT
+
+func is_alive() -> bool:
+	return life > 0.0 and not is_equal_approx(life, 0.0)

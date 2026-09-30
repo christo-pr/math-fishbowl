@@ -13,10 +13,12 @@ const BOB_SPEED := 2.4
 const FLOAT_TEXT_RISE := 46.0
 
 const PELLET_TEXTURE := preload("res://entities/food/food_pellet.svg")
+const DEAD_TEXTURE := preload("res://Art/TankSpritesheet/Vector/fish_orange_skeleton.svg")
 
 @onready var _sprite: Sprite2D = %Sprite
 @onready var _shape: CollisionShape2D = %Shape
 @onready var _name_label: Label = %NameLabel
+@onready var _vital_dot: ColorRect = %VitalDot
 
 var data: FishData
 var species: FishSpecies
@@ -35,12 +37,16 @@ func _ready() -> void:
 	EventBus.fish_changed.connect(_on_fish_changed)
 	EventBus.save_requested.connect(_on_save_requested)
 	EventBus.fish_selection_changed.connect(_on_selection_changed)
+	EventBus.fish_vital_changed.connect(_on_vital_changed)
 	get_viewport().size_changed.connect(_update_water)
 	_update_water()
 
 
 func _process(delta: float) -> void:
 	_bob_time += delta * BOB_SPEED
+	if data != null and not data.is_alive():
+		_sprite.position.y = 0.0
+		return
 	var to_target := _target - position
 	if to_target.length() < ARRIVE_DISTANCE:
 		_pick_target()
@@ -89,12 +95,17 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 
 func _pet() -> void:
+	if data != null and not data.is_alive():
+		return
 	_squash()
 	_float_text("\u2665", Color(0.95, 0.35, 0.45))
 	Audio.play(Audio.Cue.PET, true)
 
 
 func _feed() -> void:
+	if data != null and not data.is_alive():
+		return
+
 	var result: GameState.FeedResult = GameState.feed_fish(data.id)
 	match result:
 		GameState.FeedResult.FED:
@@ -129,6 +140,11 @@ func _on_selection_changed(fish_id: String) -> void:
 	var mat := _sprite.material as ShaderMaterial
 	if mat:
 		mat.set_shader_parameter("show_outline", selected)
+	
+func _on_vital_changed(changed: FishData) -> void:
+	if data == null or changed.id != data.id:
+		return
+	_apply_vital()
 
 # --- Visuals -----------------------------------------------------------------
 
@@ -142,6 +158,7 @@ func _apply_stage(animate: bool) -> void:
 	circle.radius = PICK_RADIUS * target.x
 	_shape.shape = circle
 	_name_label.position.y = 26.0 + 14.0 * target.x
+	_vital_dot.position = Vector2(-6.0, -36.0 - 18.0 * target.x)
 	if animate:
 		var tween := create_tween()
 		tween.tween_property(_sprite, "scale", target * 1.2, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -149,6 +166,26 @@ func _apply_stage(animate: bool) -> void:
 	else:
 		_sprite.scale = target
 
+func _apply_vital() -> void:
+	var band := data.vital_band(
+		GameState.config.band_hungry_below,
+		GameState.config.band_starving_below,
+		GameState.config.band_almost_dead_below
+	)
+	_vital_dot.visible = band != FishData.VitalBand.CONTENT 
+	
+	match band:
+		FishData.VitalBand.HUNGRY:
+			_vital_dot.color = Color(0.95, 0.78, 0.25)
+		FishData.VitalBand.STARVING:
+			_vital_dot.color = Color(0.95, 0.5, 0.15)
+		FishData.VitalBand.ALMOST_DEAD:
+			_vital_dot.color = Color(0.9, 0.25, 0.22)
+		FishData.VitalBand.DEAD:
+			_vital_dot.color = Color(0.45, 0.45, 0.5)
+			_sprite.texture = DEAD_TEXTURE
+		_:
+			pass
 
 func _squash() -> void:
 	var base := _stage_scale()
