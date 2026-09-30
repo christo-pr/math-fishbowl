@@ -7,7 +7,6 @@ const BREAK_DURATION := 0.35
 
 @onready var _sprite: Sprite2D = %Sprite
 @onready var _shape: CollisionShape2D = %Shape
-
 var data: CrateData
 var def: CrateDef
 

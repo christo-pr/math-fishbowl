@@ -105,6 +105,7 @@ func _on_sushi_pressed() -> void:
 
 func _on_sushi_confirmed() -> void:
 	var gained := GameState.make_fish_sushi(GameState.selected_fish_id)
+	Audio.play(Audio.Cue.SUSHI, true)
 	if gained > 0:
 		show_toast("Sushi! +%s coins" % format_number(gained))
 

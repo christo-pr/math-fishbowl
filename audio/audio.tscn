@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dqu842hw65irb"]
+
+[ext_resource type="Script" uid="uid://n3i6ep7r4yxy" path="res://common/audio.gd" id="1_enka0"]
+[ext_resource type="AudioStream" uid="uid://cqhtevg3rcliu" path="res://audio/music/tank.ogg" id="2_ka77o"]
+[ext_resource type="AudioStream" uid="uid://c2c4hopuulals" path="res://audio/sfx/pet.wav" id="3_yivo4"]
+[ext_resource type="AudioStream" uid="uid://csqom1702ewa3" path="res://audio/sfx/feed.wav" id="4_qqbyv"]
+[ext_resource type="AudioStream" uid="uid://0v6a5yh7608d" path="res://audio/sfx/grew.wav" id="5_ityk8"]
+[ext_resource type="AudioStream" uid="uid://bx7ga64j4eq0" path="res://audio/sfx/correct.wav" id="6_83834"]
+[ext_resource type="AudioStream" uid="uid://bfn3en7kwkuyd" path="res://audio/sfx/wrong.wav" id="7_upng6"]
+[ext_resource type="AudioStream" uid="uid://da4f50u17nx2a" path="res://audio/sfx/quiz_success.wav" id="8_yes2m"]
+[ext_resource type="AudioStream" uid="uid://c6librlmcacii" path="res://audio/sfx/sushi.wav" id="9_ka77o"]
+
+[node name="Audio" type="Node" unique_id=1137647416]
+script = ExtResource("1_enka0")
+music = ExtResource("2_ka77o")
+pet = ExtResource("3_yivo4")
+feed = ExtResource("4_qqbyv")
+grew = ExtResource("5_ityk8")
+correct = ExtResource("6_83834")
+wrong = ExtResource("7_upng6")
+quiz_success = ExtResource("8_yes2m")
+sushi = ExtResource("9_ka77o")

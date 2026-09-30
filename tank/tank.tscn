@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://db5m6ellnpt6" path="res://ui/hud/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://ui/shop/shop_panel.tscn" id="6_shop"]
 [ext_resource type="PackedScene" path="res://ui/name_fish/name_fish_dialog.tscn" id="7_name"]
-[ext_resource type="PackedScene" path="res://ui/quiz/quiz_overlay.tscn" id="8_quiz"]
+[ext_resource type="PackedScene" uid="uid://7avbkjstx407" path="res://ui/quiz/quiz_overlay.tscn" id="8_quiz"]
 
 [node name="Tank" type="Node2D" unique_id=1727022702]
 script = ExtResource("1_tank")

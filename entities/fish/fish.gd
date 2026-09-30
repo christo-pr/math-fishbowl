@@ -39,6 +39,20 @@ func _ready() -> void:
 	_update_water()
 
 
+func _process(delta: float) -> void:
+	_bob_time += delta * BOB_SPEED
+	var to_target := _target - position
+	if to_target.length() < ARRIVE_DISTANCE:
+		_pick_target()
+		return
+	var step := to_target.normalized() * _speed * delta
+	position += step
+	if absf(step.x) > 0.01:
+		_facing = 1 if step.x > 0.0 else -1
+		_sprite.flip_h = _facing < 0
+	_sprite.position.y = sin(_bob_time) * BOB_AMPLITUDE
+
+
 func setup(p_data: FishData, p_species: FishSpecies) -> void:
 	data = p_data
 	species = p_species
@@ -60,21 +74,6 @@ func play_spawn() -> void:
 	tween.tween_property(_sprite, "scale", final_scale, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_float_text("New fish!", Color(0.15, 0.55, 0.9))
 
-
-func _process(delta: float) -> void:
-	_bob_time += delta * BOB_SPEED
-	var to_target := _target - position
-	if to_target.length() < ARRIVE_DISTANCE:
-		_pick_target()
-		return
-	var step := to_target.normalized() * _speed * delta
-	position += step
-	if absf(step.x) > 0.01:
-		_facing = 1 if step.x > 0.0 else -1
-		_sprite.flip_h = _facing < 0
-	_sprite.position.y = sin(_bob_time) * BOB_AMPLITUDE
-
-
 # --- Interaction -------------------------------------------------------------
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
@@ -92,6 +91,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func _pet() -> void:
 	_squash()
 	_float_text("\u2665", Color(0.95, 0.35, 0.45))
+	Audio.play(Audio.Cue.PET, true)
 
 
 func _feed() -> void:
@@ -99,9 +99,11 @@ func _feed() -> void:
 	match result:
 		GameState.FeedResult.FED:
 			_drop_pellet()
+			Audio.play(Audio.Cue.FEED, true)
 		GameState.FeedResult.GREW:
 			_drop_pellet()
 			_float_text("Grew!", Color(0.2, 0.7, 0.3))
+			Audio.play(Audio.Cue.GREW, true)
 		GameState.FeedResult.FULL:
 			_float_text("Fully grown", Color(0.5, 0.5, 0.5))
 		_:
@@ -120,6 +122,7 @@ func _on_fish_changed(changed: FishData) -> void:
 func _on_save_requested() -> void:
 	if data:
 		GameState.sync_fish_transform(data.id, position, _facing)
+
 
 func _on_selection_changed(fish_id: String) -> void:
 	var selected := data != null and fish_id == data.id

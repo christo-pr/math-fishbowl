@@ -108,6 +108,8 @@ func _correct() -> void:
 	_solved_count += 1
 	_set_feedback("Correct!", COLOR_OK)
 	_refresh_dots()
+	var finished := _solved_count >= _def.problem_count
+	Audio.play(Audio.Cue.QUIZ_SUCCESS if finished else Audio.Cue.CORRECT)
 	var tween := create_tween()
 	tween.tween_property(_answer_label, "scale", Vector2(1.15, 1.15), 0.1)
 	tween.tween_property(_answer_label, "scale", Vector2.ONE, 0.2)
@@ -126,6 +128,7 @@ func _wrong() -> void:
 	_busy = true
 	_set_feedback("Try again!", COLOR_WRONG)
 	_shake(_answer_label)
+	Audio.play(Audio.Cue.WRONG, true)
 	await get_tree().create_timer(WRONG_DELAY).timeout
 	if not visible:
 		return

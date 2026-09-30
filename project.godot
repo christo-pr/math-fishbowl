@@ -16,11 +16,16 @@ config/features=PackedStringArray("4.7", "Mobile")
 run/low_processor_mode=true
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://bpjxik576lyq1"
+
 [autoload]
 
 EventBus="*res://common/event_bus.gd"
 SaveService="*res://save/save_service.gd"
 GameState="*res://common/game_state.gd"
+Audio="*uid://dqu842hw65irb"
 
 [debug]
 
