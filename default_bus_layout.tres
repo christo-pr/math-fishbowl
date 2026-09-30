@@ -5,6 +5,7 @@ resource_name = "Limiter"
 threshold_db = -0.5
 
 [resource]
+bus/0/volume_db = -0.030508041
 bus/0/send = &"Music"
 bus/0/effect/0/effect = SubResource("AudioEffectLimiter_j3pel")
 bus/0/effect/0/enabled = true

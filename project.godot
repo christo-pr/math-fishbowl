@@ -19,6 +19,8 @@ config/icon="uid://46tgn5aan53i"
 [audio]
 
 buses/default_bus_layout="uid://bpjxik576lyq1"
+general/ios/session_category=3
+general/ios/mix_with_others=true
 
 [autoload]
 
