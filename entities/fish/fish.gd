@@ -5,6 +5,7 @@ extends Area2D
 
 const STAGE_SCALE: Array[float] = [0.7, 1.0, 1.35]
 const PICK_RADIUS := 30.0
+const MIN_PICK_RADIUS := 48.0
 const MIN_SPEED := 40.0
 const MAX_SPEED := 85.0
 const ARRIVE_DISTANCE := 12.0
@@ -98,7 +99,7 @@ func _pet() -> void:
 	if data != null and not data.is_alive():
 		return
 	_squash()
-	_float_text("\u2665", Color(0.95, 0.35, 0.45))
+	_float_text("<3", Color(0.95, 0.35, 0.45))
 	Audio.play(Audio.Cue.PET, true)
 
 
@@ -155,7 +156,7 @@ func _stage_scale() -> Vector2:
 func _apply_stage(animate: bool) -> void:
 	var target := _stage_scale()
 	var circle := CircleShape2D.new()
-	circle.radius = PICK_RADIUS * target.x
+	circle.radius = maxf(MIN_PICK_RADIUS, 32.0 * target.x + 24.0)
 	_shape.shape = circle
 	_name_label.position.y = 26.0 + 14.0 * target.x
 	_vital_dot.position = Vector2(-6.0, -36.0 - 18.0 * target.x)

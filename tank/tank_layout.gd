@@ -2,7 +2,7 @@ class_name TankLayout
 ## Pure helpers that turn the current viewport size into tank geometry.
 ## Everything that places things in the tank asks here, so aspect changes stay consistent.
 
-const SAND_HEIGHT := 96.0
+const SAND_HEIGHT := 130.0
 const WALL_THICKNESS := 32.0
 const TOP_HUD_SPACE := 90.0
 const WATER_SIDE_MARGIN := 56.0

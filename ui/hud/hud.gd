@@ -29,7 +29,7 @@ func _ready() -> void:
 	EventBus.fish_selection_changed.connect(_on_fish_selection_changed)
 	_feed_button.toggled.connect(_on_feed_toggled)
 	_shop_button.pressed.connect(func() -> void: shop_pressed.emit())
-	_reset_button.visible = OS.is_debug_build()
+	_reset_button.visible = false # OS.is_debug_build()
 	_reset_button.pressed.connect(_on_reset_pressed)
 	_reset_dialog.confirmed.connect(_on_reset_confirmed)
 	_sushi_button.pressed.connect(_on_sushi_pressed)

@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cgsmf8w81pjou" path="res://tank/crate_spawner.gd" id="4_spawner"]
 [ext_resource type="PackedScene" uid="uid://db5m6ellnpt6" path="res://ui/hud/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://ui/shop/shop_panel.tscn" id="6_shop"]
-[ext_resource type="PackedScene" path="res://ui/name_fish/name_fish_dialog.tscn" id="7_name"]
+[ext_resource type="PackedScene" uid="uid://cii3mijqiu4k1" path="res://ui/name_fish/name_fish_dialog.tscn" id="7_name"]
 [ext_resource type="PackedScene" uid="uid://7avbkjstx407" path="res://ui/quiz/quiz_overlay.tscn" id="8_quiz"]
 
 [node name="Tank" type="Node2D" unique_id=1727022702]
